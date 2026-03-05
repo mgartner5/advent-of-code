@@ -5,34 +5,51 @@
     type ReportDirection = 'ascending' | 'descending' | undefined;
 
     const day2Part1Answer = () => {
-        return `The answer to day 2 is ${getSafeReportsCount(day2Data)}`;
+        return `${getSafeReportsCount(day2Data)} reports are safe!`;
+    };
+    const day2Part2Answer = () => {
+        return `${getSafeReportsCount(day2Data, true)} reports are safe with the problem dampener!`;
     };
 
-    const getSafeReportsCount = (reports: number[][]): number => {
+    const getSafeReportsCount = (reports: number[][], useProblemDampener: boolean = false): number => {
         let safeReportCount = 0;
         for (const report of reports) {
-            if (isReportSafe(report)) {
+            if (isReportSafe(report, useProblemDampener)) {
                 safeReportCount++;
             }
         }
         return safeReportCount;
     }
 
-    const isReportSafe = (report: number[]) => {
+    const isReportSafe = (report: number[], useProblemDampener: boolean = false) => {
         let direction: ReportDirection = undefined;
         for (let i: number = 0; i < report.length - 1; i++) {
             let currentValue = report[i];
             let nextValue = report[i + 1];
+            let problemFound: boolean = false;
+
             if (currentValue === nextValue) {
-                return false;
+                problemFound = true;
             }
             if (!direction) {
                 direction = currentValue < nextValue ? 'ascending' : 'descending';
             }
             if ((currentValue < nextValue && direction === 'descending') || (currentValue > nextValue && direction === 'ascending')) {
-                return false;
+                problemFound = true;
             }
-            if (currentValue - nextValue > 3 || currentValue - nextValue < -3) {
+            if (Math.abs(currentValue - nextValue) > 3) {
+                problemFound = true;
+            }
+            
+            if (problemFound) {
+                if (useProblemDampener) {
+                    for (let removeIndex = 0; removeIndex < report.length; removeIndex++) {
+                        const reportSubset = [...report.slice(0, removeIndex), ...report.slice(removeIndex + 1)];
+                        if (isReportSafe(reportSubset)) {
+                            return true;
+                        }
+                    }
+                }
                 return false;
             }
         }
@@ -51,5 +68,11 @@
         class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
     >
         Day 2 - Part 1
+    </button>
+    <button
+        onclick={() => openPopup(day2Part2Answer())}
+        class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+    >
+        Day 2 - Part 2
     </button>
 </div>
