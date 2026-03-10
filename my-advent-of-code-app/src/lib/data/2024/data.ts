@@ -1,4 +1,4 @@
-import { parseGrid } from '$lib/utils/parseGrid';
+import { ReportCollection } from '$lib/domain/report';
 import raw from './day2.txt?raw';
 
-export const day2Data: number[][] = parseGrid(raw);
+export const day2Data = ReportCollection.fromRaw(raw);
