@@ -1,13 +1,18 @@
 <script lang="ts">
-    import { day2Data } from '$lib/data/2024/data';
+    import { day2Data, day7Data } from '$lib/data/2024/data';
     import { openPopup } from '$lib/popup.svelte';
-
 
     const day2Part1Answer = () => {
         return `${day2Data.safeReportCount()} reports are safe!`;
     };
     const day2Part2Answer = () => {
         return `${day2Data.safeReportCount(true)} reports are safe with the problem dampener!`;
+    };
+    const day7Part1Answer = () => {
+        return `The total calibration result is: ${day7Data.calculateTotalCalibrationResult()}`;
+    };
+    const day7Part2Answer = () => {
+        return `The total calibration result when allowing concatenation is: ${day7Data.calculateTotalCalibrationResult(true)}`;
     };
 </script>
 
@@ -28,5 +33,17 @@
         class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
     >
         Day 2 - Part 2
+    </button>
+    <button
+        onclick={() => openPopup(day7Part1Answer())}
+        class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+    >
+        Day 7 - Part 1
+    </button>
+    <button
+        onclick={() => openPopup(day7Part2Answer())}
+        class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+    >
+        Day 7 - Part 2
     </button>
 </div>
